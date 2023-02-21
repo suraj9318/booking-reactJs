@@ -25,3 +25,7 @@
   cursor: pointer;
   color: #003580;
 }
+a{
+  color :inherit;
+  text-decoration: none;
+}
