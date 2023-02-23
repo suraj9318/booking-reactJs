@@ -10,17 +10,31 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
+import { SearchContext } from "../../context/SearchContext";
 
 const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const {id} = useParams()
-  console.log(id)
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
-  console.log(data);
+
+
+  const {date,options} = useContext(SearchContext);
+
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
+
+  const days = dayDifference(date[0].endDate, date[0].startDate);
+
+
+
   
  const handleOpen = (i) => {
     setSlideNumber(i);
@@ -83,7 +97,8 @@ const Hotel = () => {
             Book a stay over ${data.cheapestPrice} at this property and get a free airport taxi
           </span>
           <div className="hotelImages">
-            {data?.photos.map((photo, i) => (
+
+            {data?.photos?.map((photo, i) => (
               <div className="hotelImgWrapper" key={i}>
                 <img
                   onClick={() => handleOpen(i)}
@@ -93,6 +108,7 @@ const Hotel = () => {
                 />
               </div>
             ))}
+
           </div>
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
@@ -102,13 +118,13 @@ const Hotel = () => {
               </p>
             </div>
             <div className="hotelDetailsPrice">
-              <h1>Perfect for a 9-night stay!</h1>
+              <h1>Perfect for a {days}-night stay!</h1>
               <span>
                 Located in the real heart of Krakow, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
-                <b>$945</b> (9 nights)
+                <b>${days * data.cheapestPrice * options.room}</b> ({days} nights)
               </h2>
               <button>Reserve or Book Now!</button>
             </div>
