@@ -9,7 +9,7 @@ const Navbar = () => {
         </Link>
         <div className="navItems">
           <button className="navButton">Register</button>
-          <button className="navButton">Login</button>
+          <button className="navButton"><Link to="/login">Login</Link> </button>
         </div>
       </div>
     </div>

@@ -22,12 +22,7 @@ import { createContext, useEffect, useReducer } from "react"
                 loading : false,
                 error : null
             }
-            case "LOGIN_FAILURE":
-            return {
-                user : null,
-                loading : false,
-                error : action.payload
-            }
+           
             case "LOGIN_FAILURE":
             return {
                 user : null,
@@ -45,11 +40,13 @@ import { createContext, useEffect, useReducer } from "react"
 
  export const AuthContextProvider = ({children})=>{
 
-    useEffect(()=>{
+       const  [state,dispatch] = useReducer(authReducer,intialState)
+
+       useEffect(()=>{
         localStorage.setItem('user',JSON.stringify(state.user))
     },[state.user])
 
-    const  [state,dispatch] = useReducer(authReducer,intialState)
+    
 
     return <AuthContext.Provider value={{user : state.user, loading : state.loading,error : state.error, dispatch}}>
             {children}
