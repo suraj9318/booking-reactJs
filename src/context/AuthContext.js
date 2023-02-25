@@ -30,7 +30,11 @@ import { createContext, useEffect, useReducer } from "react"
                 error : action.payload
             }
             case "LOGOUT":
-            return intialState;
+            return {
+                user : null,
+                loading : false,
+                error : null
+            }
         
         default:
             return state
