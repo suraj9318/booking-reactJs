@@ -15,14 +15,14 @@ const Login = () => {
     dispatch({type :"LOGIN_START"})
 
     try {
-        const response = await axios.post('/api/auth/login',credentials)
+        const response = await axios.post('http://localhost:8080/api/auth/login',credentials)
         dispatch({type :  'LOGIN_SUCCESS', payload :response.data})
     } catch (error) {
         dispatch({type :"LOGIN_FAILURE", payload : error.response.data})  
     }
    }
 
-   console.log(user);
+   console.log(user);   
   return (
     <div className='login'>
 
